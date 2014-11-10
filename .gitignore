@@ -1,2 +1,4 @@
 *.json
 stubhub_login.py
+output.log
+*.csv
