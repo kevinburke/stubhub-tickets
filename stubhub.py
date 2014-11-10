@@ -17,12 +17,17 @@ def get_data():
     stubhub = OAuth2Session(r'kev@inburke.com', token=token_data)
 
     r = stubhub.get('https://api.stubhub.com/search/catalog/events/v2', params={'q': 'Golden State Warriors', 'date': '2014-11-09T00:00 TO 2014-11-17T23:59'})
+    print r.content
     r.raise_for_status()
     return r.json()
 
 def dump_data(data, filename):
     with open(filename, 'w') as f:
         json.dump(data, f)
+
+def load_data_from_file(filename):
+    with open(filename) as f:
+        return json.load(f)
 
 def get_event(events, teamname):
     for event in events:
@@ -32,8 +37,8 @@ def get_event(events, teamname):
                 return event
     raise KeyError()
 
-with open('warriors_events.json') as f:
-    d = json.load(f)
+#d = load_data_from_file('warriors_events.json')
+d = get_data()
 
 event = get_event(d['events'], 'San Antonio Spurs')
 print event['ticketInfo']
